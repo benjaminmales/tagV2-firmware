@@ -489,10 +489,11 @@ static void on_ble_evt(ble_evt_t * p_ble_evt)
 static void ble_evt_dispatch(ble_evt_t * p_ble_evt)
 {
     // parsing the data and getting to the main program
+    if(p_ble_evt->header.evt_id == BLE_GATTS_EVT_WRITE)
     {
         ble_gatts_evt_write_t * p_evt_write = &p_ble_evt->evt.gatts_evt.params.write;
 
-        XOPacketParse(&packet, p_evt_write->data, BLE_NUS_MAX_DATA_LEN);
+        XOPacketParse(&packet, p_evt_write->data, p_evt_write->len);
         dataIsHere = true;
     }
     
